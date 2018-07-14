@@ -4,11 +4,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Telephony;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SMSForwarder extends BroadcastReceiver {
 
@@ -30,41 +35,70 @@ public class SMSForwarder extends BroadcastReceiver {
                 return;
             }
 
-            for (SmsMessage sms: Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
-                String message = sms.getMessageBody();
-                String sender = sms.getOriginatingAddress();
+            Bundle bundle = intent.getExtras();
+            if (bundle.containsKey("pdus")) {
 
-                boolean filterEnabled = preferences.getBoolean("filter", false);
+                // here we build a dict where keys are message senders
+                // all pdu messages from one sender are combined to one long string
+                Map<String, String> messages = new HashMap<String, String>();
 
-                if (filterEnabled) {
-                    String filterType = preferences.getString("list_type", "0");
+                Object[] pdus = (Object[]) bundle.get("pdus");
 
-                    String[] entriesAsArray = preferences.getString("filter_list", "").split(";");
+                for (Object pdu: pdus) {
+                    SmsMessage msg = SmsMessage.createFromPdu((byte[])pdu);
+                    String sender = msg.getOriginatingAddress();
+                    String text = msg.getMessageBody();
 
-                    // "0" is blacklist
-                    if (filterType.equals("0")) {
-                        for (String filter: entriesAsArray) {
-                            if (sender.equals(filter) || PhoneNumberUtils.compare(sender, filter)) {
+                    if (messages.containsKey(sender)) {
+                        String newText = messages.get(sender) + text;
+                        messages.put(sender, newText);
+                    } else {
+                        messages.put(sender, text);
+                    }
+
+                }
+                // every message in a dict is checked against filters
+                // and is forwarded if it matches
+                for (String sender: messages.keySet()) {
+
+                    String message = messages.get(sender);
+
+                    boolean filterEnabled = preferences.getBoolean("filter", false);
+
+                    if (filterEnabled) {
+                        String filterType = preferences.getString("list_type", "0");
+
+                        String[] entriesAsArray = preferences.getString("filter_list", "").split(";");
+
+                        // "0" is blacklist
+                        if (filterType.equals("0")) {
+                            for (String filter : entriesAsArray) {
+                                if (sender.equals(filter) || PhoneNumberUtils.compare(sender, filter)) {
+                                    return;
+                                }
+                            }
+                        }
+                        // "1" is whitelist
+                        else {
+                            boolean found = false;
+                            for (String filter : entriesAsArray) {
+                                if (sender.equals(filter) || PhoneNumberUtils.compare(sender, filter)) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) {
                                 return;
                             }
                         }
                     }
-                    // "1" is whitelist
-                    else {
-                        boolean found = false;
-                        for (String filter: entriesAsArray) {
-                            if (sender.equals(filter) || PhoneNumberUtils.compare(sender, filter)) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            return;
-                        }
-                    }
+
+                    String toSend = sender + ": " + message;
+                    ArrayList<String> dividedMessage = SmsManager.getDefault().divideMessage(toSend);
+
+                    SmsManager.getDefault()
+                            .sendMultipartTextMessage(number, null, dividedMessage, null, null);
                 }
-                String toSend = sender + ": " + message;
-                SmsManager.getDefault().sendTextMessage(number, null, toSend, null, null);
             }
         }
     }
