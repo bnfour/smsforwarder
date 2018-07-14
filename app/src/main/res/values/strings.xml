@@ -20,6 +20,15 @@
     <string name="add_non_phone">Add text</string>
     <string name="clear_all">Clear list</string>
 
+    <string name="edit_entry">Edit entry</string>
+    <string name="new_entry">New entry</string>
+
+    <string name="confirm_title">Please confirm deletion</string>
+    <string name="confirm_text">Are you sure you want to remove all entries from this list? This cannot be undone.</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
     <string-array name="filter_types">
         <item>Blacklist</item>
         <item>Whitelist</item>
