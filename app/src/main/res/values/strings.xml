@@ -14,6 +14,9 @@
     <string name="oss_title">Open-source! (MIT)</string>
     <string name="oss_desc">https://github.com/bnfour/smsforwarder</string>
 
+    <string name="add_to_list">Add a sender</string>
+    <string name="remove_from_list">Delete</string>
+
     <string-array name="filter_types">
         <item>Blacklist</item>
         <item>Whitelist</item>
