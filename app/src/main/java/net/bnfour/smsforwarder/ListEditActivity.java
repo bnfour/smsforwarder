@@ -60,6 +60,7 @@ public class ListEditActivity extends Activity {
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ListEditActivity.this);
                 builder.setTitle(R.string.edit_entry);
+                builder.setMessage(R.string.format_hint);
 
                 final EditText input = new EditText(ListEditActivity.this);
 

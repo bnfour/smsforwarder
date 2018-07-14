@@ -57,6 +57,7 @@ public class ListEntryAdapter extends RecyclerView.Adapter<ListEntryAdapter.View
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(_context);
                 builder.setTitle(R.string.edit_entry);
+                builder.setMessage(R.string.format_hint);
 
                 final EditText input = new EditText(_context);
                 input.setText(_entries.get(position));

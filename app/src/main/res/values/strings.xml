@@ -18,6 +18,7 @@
     <string name="remove_from_list">Delete</string>
     <string name="add_phone">Add phone</string>
     <string name="add_non_phone">Add text</string>
+    <string name="format_hint">Please use international format whenever possible.</string>
     <string name="clear_all">Clear list</string>
 
     <string name="edit_entry">Edit entry</string>
