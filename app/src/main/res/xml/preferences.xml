@@ -24,7 +24,10 @@
             android:key="filter_list"
             android:title="@string/edit_list_title"
             android:dependency="filter">
-            <!-- TODO intent to list-edit activity -->
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="net.bnfour.smsforwarder"
+                android:targetClass="net.bnfour.smsforwarder.ListEditActivity"/>
         </Preference>
     </PreferenceCategory>
     <PreferenceCategory
