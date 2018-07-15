@@ -12,13 +12,14 @@
 
     <string name="app_desc">by bnfour, july 2018</string>
     <string name="oss_title">Open-source! (MIT)</string>
-    <string name="oss_desc">https://github.com/bnfour/smsforwarder</string>
+    <string name="oss_desc">Code lives at GitHub</string>
 
-    <string name="add_to_list">Add a sender</string>
+    <string name="icon_title">App icon by Icojam</string>
+    <string name="icon_desc">From public domain Blue Bits pack</string>
+
+    <string name="add_to_list">Add sender</string>
     <string name="remove_from_list">Delete</string>
-    <string name="add_phone">Add phone</string>
-    <string name="add_non_phone">Add text</string>
-    <string name="format_hint">Please use international format whenever possible.</string>
+    <string name="format_hint">Please use international format for phone numbers whenever possible.</string>
     <string name="clear_all">Clear list</string>
 
     <string name="edit_entry">Edit entry</string>
