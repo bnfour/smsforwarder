@@ -2,12 +2,10 @@ package net.bnfour.smsforwarder;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -30,7 +28,7 @@ public class ListEditActivity extends Activity {
     private final static String key = "filter_list";
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listeditlayout);
 
@@ -42,7 +40,8 @@ public class ListEditActivity extends Activity {
 
         _preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String[] entriesAsArray = _preferences.getString(key, "").split(";");
-        // this is awkward
+        // this is awkward implementation of returning an empty list on empty string
+        // "" split by ";" is still one "", but we want an empty list in this case
         if (entriesAsArray.length > 1 || !entriesAsArray[0].equals("")) {
             _entries = new ArrayList<>(Arrays.asList(entriesAsArray));
         } else {
@@ -114,9 +113,11 @@ public class ListEditActivity extends Activity {
         });
     }
 
+
     @Override
     protected void onStop() {
         super.onStop();
+        // also writes updated list to shared preferences
         _preferences.edit().putString(key, TextUtils.join(";", _entries)).commit();
     }
 }

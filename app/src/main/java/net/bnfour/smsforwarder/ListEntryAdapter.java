@@ -31,8 +31,8 @@ public class ListEntryAdapter extends RecyclerView.Adapter<ListEntryAdapter.View
         }
     }
 
-
     private ArrayList<String> _entries;
+    // context is necessary for alert dialogs
     private Context _context;
 
     public ListEntryAdapter(ArrayList<String> entries, Context context) {

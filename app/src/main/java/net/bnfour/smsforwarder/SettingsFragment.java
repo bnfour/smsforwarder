@@ -38,7 +38,6 @@ public class SettingsFragment extends PreferenceFragment
         updateSummaryByKey(key);
     }
 
-
     private void updateAllSummaries() {
         updatePhoneNumber();
         updateListType();
@@ -61,6 +60,7 @@ public class SettingsFragment extends PreferenceFragment
         }
     }
 
+    // also disables other settings if phone number is not set
     private void updatePhoneNumber() {
         final String phoneKey = "phone";
 

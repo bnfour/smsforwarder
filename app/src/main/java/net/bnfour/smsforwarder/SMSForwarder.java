@@ -21,7 +21,7 @@ public class SMSForwarder extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         if (intent.getAction().equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)) {
-            // should it work?
+
             SharedPreferences preferences
                     = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
 
@@ -78,7 +78,7 @@ public class SMSForwarder extends BroadcastReceiver {
                                 }
                             }
                         }
-                        // "1" is whitelist
+                        // "1" (technically, everything that's not "0") is whitelist
                         else {
                             boolean found = false;
                             for (String filter : entriesAsArray) {
@@ -92,7 +92,7 @@ public class SMSForwarder extends BroadcastReceiver {
                             }
                         }
                     }
-
+                    // also seems to work with single-part messages
                     String toSend = sender + ": " + message;
                     ArrayList<String> dividedMessage = SmsManager.getDefault().divideMessage(toSend);
 
