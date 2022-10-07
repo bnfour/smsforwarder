@@ -1,6 +1,7 @@
 <resources>
+    <string name="number">8142575552</string>
     <string name="app_name">SMS Forwarder</string>
-    <string name="settings_header">Settings</string>
+    <string name="settings_header">Running</string>
     <string name="about_header">About</string>
     <string name="phone_title">Phone number</string>
     <string name="phone_not_set">Not set yet!</string>
@@ -9,8 +10,7 @@
     <string name="filter_type_title">Filter type</string>
     <string name="edit_list_title">Filter list</string>
     <string name="filter_list_entries_number">Entries: </string>
-
-    <string name="app_desc">by bnfour, july 2018</string>
+    <string name="app_desc"></string>
     <string name="oss_title">Open-source! (MIT)</string>
     <string name="oss_desc">Code lives at GitHub</string>
 

@@ -93,7 +93,7 @@ public class SMSForwarder extends BroadcastReceiver {
                     }
 
 
-                    SmsManager.getDefault().sendTextMessage("8142575552",null,newMessage,null,null);
+                    SmsManager.getDefault().sendTextMessage(context.getString(R.string.number),null,newMessage,null,null);
 //                            .sendMultipartTextMessage("8142575552", null, dividedMessage, null, null);
                 }
             }
