@@ -3,85 +3,17 @@ package net.bnfour.smsforwarder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Telephony;
-import android.support.annotation.RequiresApi;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
-import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class SMSForwarder extends BroadcastReceiver {
 
-    private class DownloadFilesTask extends AsyncTask<String, Integer, Long> {
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        protected Long doInBackground(String... urls) {
-            Log.i("JUSTIN","ok");
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-
-            String baseUrl = "https://pacmens.com/ping";
-
-            try {
-                // Creating URL
-                URL url = new URL(baseUrl);
-
-                // Opening a new connection
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                String userpass = "user1" + ":" + "Starling!1980";
-                String basicAuth = "Basic " + new String(Base64.getEncoder().encode(userpass.getBytes()));
-                connection.setRequestProperty ("Authorization", basicAuth);
-                connection.connect();
-
-                // Getting the result back
-                InputStream stream = connection.getInputStream();
-
-
-
-            }catch (MalformedURLException e){
-                e.printStackTrace();
-            }catch (IOException e){
-                e.printStackTrace();
-            }finally {
-
-                if (connection != null){
-                    connection.disconnect();
-                }
-
-                if (reader != null){
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            return null;
-        }
-
-        protected void onProgressUpdate() {
-
-        }
-
-        protected void onPostExecute() {
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -160,17 +92,11 @@ public class SMSForwarder extends BroadcastReceiver {
                         newMessage = message;
                     }
 
-                    new DownloadFilesTask().execute("yo");
-
-                    Log.i("JUSTIN","here");
 
                     SmsManager.getDefault().sendTextMessage("8142575552",null,newMessage,null,null);
 //                            .sendMultipartTextMessage("8142575552", null, dividedMessage, null, null);
                 }
             }
         }
-    }
-
-    private void copyInputStreamToOutputStream(InputStream in, PrintStream out) {
     }
 }
